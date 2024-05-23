@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Modal, Text, StyleSheet, SafeAreaView, View, TextInput, ScrollView, Pressable } from 'react-native'
-import DatePicker, { DatePickerProps } from 'react-native-date-picker'
+import DatePicker from '@dietime/react-native-date-picker';
 
 
 export default function Formulario({ modalVisible, setModalVisible }) {
@@ -79,13 +79,13 @@ export default function Formulario({ modalVisible, setModalVisible }) {
                     </View>
 
                     <View style={styles.campo}>
-                        <Text style={styles.label}>Fecha alt</Text>
+                        <Text style={styles.label}>Fecha alta</Text>
 
                         <View>
                             <DatePicker
                                 date={fecha}
                                 locale='es'
-                                onDateChange={date => setFecha(date)}
+                                onChange={date => setFecha(date)}
                             />
                         </View>
                     </View>

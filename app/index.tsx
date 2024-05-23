@@ -11,7 +11,7 @@ export default function Index() {
         <Text style={styles.tituloBold}>Veterinaria</Text>
       </Text>
       <Pressable
-        onPress={() => setModalVisible(!modalVisible)}
+        onPress={() => setModalVisible(!setModalVisible)}
         style={styles.btnNuevaCita}
       >
         <Text style={styles.textNuevaCita}>Nueva cita</Text>
@@ -21,7 +21,6 @@ export default function Index() {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-
     </SafeAreaView>
   );
 
