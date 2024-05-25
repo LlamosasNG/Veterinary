@@ -1,9 +1,11 @@
-import { useState } from 'react'
-import { Text, View, SafeAreaView, StyleSheet, Button, Pressable, Modal } from "react-native";
+import React, { useState } from 'react'
+import { Text, SafeAreaView, StyleSheet, Pressable, FlatList } from "react-native";
 import Formulario from '@/src/components/formulario';
+import Paciente from '@/src/components/paciente';
 
 export default function Index() {
   const [modalVisible, setModalVisible] = useState(false)
+  const [pacientes, setPacientes] = useState([])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -11,16 +13,35 @@ export default function Index() {
         <Text style={styles.tituloBold}>Veterinaria</Text>
       </Text>
       <Pressable
-        onPress={() => setModalVisible(!setModalVisible)}
+        onPressIn={() => setModalVisible(!modalVisible)}
         style={styles.btnNuevaCita}
       >
         <Text style={styles.textNuevaCita}>Nueva cita</Text>
       </Pressable>
 
+      {pacientes.length === 0 ?
+        <Text style={styles.sinPacientes}>No hay pacientes aún</Text> :
+        <FlatList
+          data={pacientes}
+          keyExtractor={item => item.id}
+
+          renderItem={(item) => {
+            return (
+              <Paciente
+                item={item}
+              />
+            )
+          }}
+        />
+      }
+
       <Formulario
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+        pacientes={pacientes}
+        setPacientes={setPacientes}
       />
+
     </SafeAreaView>
   );
 
@@ -58,6 +79,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '900',
     textTransform: 'uppercase'
+  },
+
+  sinPacientes: {
+    marginTop: 40,
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: 24
   }
 
 })
