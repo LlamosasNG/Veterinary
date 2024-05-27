@@ -11,8 +11,8 @@ export default function Formulario({ modalVisible, setModalVisible, pacientes, s
     const [fecha, setFecha] = useState(new Date())
     const [sintomas, setSintomas] = useState('')
 
-    function  handleCita (){
-        if([paciente, propietario, email, fecha, sintomas].includes('')){
+    function handleCita() {
+        if ([paciente, propietario, email, fecha, sintomas].includes('')) {
             Alert.alert(
                 'Error',
                 'Todos los campos son obligatorios'

@@ -13,7 +13,7 @@ export default function Index() {
         <Text style={styles.tituloBold}>Veterinaria</Text>
       </Text>
       <Pressable
-        onPressIn={() => setModalVisible(!modalVisible)}
+        onPress={() => setModalVisible(!modalVisible)}
         style={styles.btnNuevaCita}
       >
         <Text style={styles.textNuevaCita}>Nueva cita</Text>
@@ -22,10 +22,11 @@ export default function Index() {
       {pacientes.length === 0 ?
         <Text style={styles.sinPacientes}>No hay pacientes aún</Text> :
         <FlatList
+          style={styles.listado}
           data={pacientes}
           keyExtractor={item => item.id}
 
-          renderItem={(item) => {
+          renderItem={({ item }) => {
             return (
               <Paciente
                 item={item}
@@ -86,6 +87,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 24
-  }
+  },
 
+  listado: {
+    marginTop: 50,
+    marginHorizontal: 30
+  }
 })
