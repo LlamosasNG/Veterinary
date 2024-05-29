@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 
 export default function Paciente({ item }) {
     const { paciente, fecha } = item;
@@ -20,9 +20,17 @@ export default function Paciente({ item }) {
             <Text style={styles.texto}>{paciente}</Text>
             <Text style={styles.fecha}>{formatearFecha(fecha)}</Text>
 
+            <View style={styles.contenedorBtns}>
+                <Pressable style={[styles.btn, styles.btnEditar]}>
+                    <Text style={styles.btnTexto}>Editar</Text>
+                </Pressable>
+
+                <Pressable style={[styles.btn, styles.btnEliminar]}>
+                    <Text style={styles.btnTexto}>Eliminar</Text>
+                </Pressable>
+            </View>
         </View>
     );
-        
 }
 
 const styles = StyleSheet.create({
@@ -50,4 +58,32 @@ const styles = StyleSheet.create({
     fecha: {
         color: "#374151",
     },
+
+    contenedorBtns: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 20,
+    },
+
+    btn: {
+        paddingVertical: 5,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+    },
+
+    btnEditar: {
+        backgroundColor: '#F59E0B'
+    },
+
+    btnEliminar: {
+        backgroundColor: '#EF4444'
+    },
+
+    btnTexto: {
+        textTransform: 'uppercase',
+        fontWeight: '900',
+        fontSize: 12,
+        color: '#FFF'
+    }
+
 });
