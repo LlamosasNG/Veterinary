@@ -1,11 +1,36 @@
 import React, { useState } from 'react'
-import { Text, SafeAreaView, StyleSheet, Pressable, FlatList } from "react-native";
+import { Text, SafeAreaView, StyleSheet, Pressable, FlatList, Alert, Modal } from "react-native";
 import Formulario from '@/src/components/formulario';
 import Paciente from '@/src/components/paciente';
+import InformacionPaciente from '@/src/components/informacionPaciente';
 
 export default function Index() {
   const [modalVisible, setModalVisible] = useState(false)
+  const [modalPaciente, setModalPaciente] = useState(false)
   const [pacientes, setPacientes] = useState([])
+  const [paciente, setPaciente] = useState({})
+
+
+  function pacienteEditar(id) {
+    const pacienteEditar = pacientes.filter(paciente => paciente.id === id)
+    setPaciente(pacienteEditar[0])
+  }
+
+  function pacienteEliminar(id) {
+    Alert.alert(
+      '¿Deseas eliminar este paciente?',
+      'Un paciente eliminado no se puede recuperar',
+      [
+        { text: 'Cencelar' },
+        {
+          text: 'OK', onPress: () => {
+            const pacientesActualizados = pacientes.filter(pacientesState => pacientesState.id !== id)
+            setPacientes(pacientesActualizados)
+          }
+        }
+      ]
+    )
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,6 +55,12 @@ export default function Index() {
             return (
               <Paciente
                 item={item}
+                setPaciente={setPaciente}
+                setModalVisible={setModalVisible}
+                pacienteEditar={pacienteEditar}
+                pacienteEliminar={pacienteEliminar}
+                setModalPaciente={setModalPaciente}
+
               />
             )
           }}
@@ -41,7 +72,19 @@ export default function Index() {
         setModalVisible={setModalVisible}
         pacientes={pacientes}
         setPacientes={setPacientes}
+        paciente={paciente}
+        setPaciente={setPaciente}
       />
+
+      <Modal
+        visible={modalPaciente}
+        animationType='fade'
+      >
+        <InformacionPaciente
+          paciente={paciente}
+          setModalPaciente={setModalPaciente}
+        />
+      </Modal>
 
     </SafeAreaView>
   );

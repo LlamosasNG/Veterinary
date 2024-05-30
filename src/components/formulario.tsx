@@ -1,15 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Text, StyleSheet, SafeAreaView, View, TextInput, ScrollView, Pressable, Alert } from 'react-native'
 import DatePicker from '@dietime/react-native-date-picker';
 
 
-export default function Formulario({ modalVisible, setModalVisible, pacientes, setPacientes }) {
+export default function Formulario({
+    modalVisible,
+    setModalVisible,
+    pacientes,
+    setPacientes,
+    paciente: pacienteObj,
+    setPaciente: setPacienteIndex
+}) {
+
+    const [id, setId] = useState('')
     const [paciente, setPaciente] = useState('')
     const [propietario, setPropietario] = useState('')
     const [email, setEmail] = useState('')
     const [telefono, setTelefono] = useState('')
     const [fecha, setFecha] = useState(new Date())
     const [sintomas, setSintomas] = useState('')
+
+    useEffect(() => {
+        if (Object.keys(pacienteObj).length > 0) {
+            setId(pacienteObj.id)
+            setPaciente(pacienteObj.paciente)
+            setPropietario(pacienteObj.propietario)
+            setEmail(pacienteObj.email)
+            setTelefono(pacienteObj.telefono)
+            setFecha(pacienteObj.fecha)
+            setSintomas(pacienteObj.sintomas)
+        }
+    }, [pacienteObj])
 
     function handleCita() {
         if ([paciente, propietario, email, fecha, sintomas].includes('')) {
@@ -21,7 +42,6 @@ export default function Formulario({ modalVisible, setModalVisible, pacientes, s
         }
 
         const nuevoPaciente = {
-            id: Date.now(),
             paciente,
             propietario,
             email,
@@ -29,9 +49,28 @@ export default function Formulario({ modalVisible, setModalVisible, pacientes, s
             fecha,
             sintomas
         }
-        setPacientes([...pacientes, nuevoPaciente])
+
+        // Revisar si es un registro nuevo o es edición de uno ya creado
+        if (id) {
+            // Editando
+            nuevoPaciente.id = id
+
+            const pacientesActualizados = pacientes.map(pacienteState => pacienteState.id === nuevoPaciente.id ?
+                nuevoPaciente :
+                pacienteState
+            )
+            setPacientes(pacientesActualizados)
+            setPacienteIndex({})
+
+        } else {
+            // Nuevo registro
+            nuevoPaciente.id = Date.now()
+            setPacientes([...pacientes, nuevoPaciente])
+        }
+
         setModalVisible(!setModalVisible)
 
+        setId('')
         setPaciente('')
         setPropietario('')
         setEmail('')
@@ -47,13 +86,23 @@ export default function Formulario({ modalVisible, setModalVisible, pacientes, s
         >
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <Text style={styles.titulo}>Nueva {''}
+                    <Text style={styles.titulo}>
+                        {pacienteObj.id ? 'Editar' : 'Nueva'} {''}
                         <Text style={styles.tituloBold}>Cita</Text>
                     </Text>
 
                     <Pressable
                         style={styles.cancelarBtn}
-                        onLongPress={() => setModalVisible(!setModalVisible)}
+                        onLongPress={() => {
+                            setModalVisible(!setModalVisible)
+                            setPacienteIndex({})
+                            setPaciente('')
+                            setPropietario('')
+                            setEmail('')
+                            setTelefono('')
+                            setFecha(new Date())
+                            setSintomas('')
+                        }}
                     >
                         <Text style={styles.cancelarTxt}>X Cancelar</Text>
                     </Pressable>
@@ -137,7 +186,7 @@ export default function Formulario({ modalVisible, setModalVisible, pacientes, s
                         style={styles.nuevaCitaBtn}
                         onPress={handleCita}
                     >
-                        <Text style={styles.nuevaCitaText}>Agregar paciente</Text>
+                        <Text style={styles.nuevaCitaText}> {pacienteObj.id ? 'Editar' : 'Agregar'} paciente</Text>
                     </Pressable>
 
                 </ScrollView>
