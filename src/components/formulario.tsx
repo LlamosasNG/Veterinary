@@ -5,11 +5,11 @@ import DatePicker from '@dietime/react-native-date-picker';
 
 export default function Formulario({
     modalVisible,
-    setModalVisible,
+    cerrarModal,
     pacientes,
     setPacientes,
     paciente: pacienteObj,
-    setPaciente: setPacienteIndex
+    setPaciente: setPacienteIndex,
 }) {
 
     const [id, setId] = useState('')
@@ -68,7 +68,7 @@ export default function Formulario({
             setPacientes([...pacientes, nuevoPaciente])
         }
 
-        setModalVisible(!setModalVisible)
+        cerrarModal()
 
         setId('')
         setPaciente('')
@@ -94,7 +94,7 @@ export default function Formulario({
                     <Pressable
                         style={styles.cancelarBtn}
                         onLongPress={() => {
-                            setModalVisible(!setModalVisible)
+                            cerrarModal()
                             setPacienteIndex({})
                             setPaciente('')
                             setPropietario('')

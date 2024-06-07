@@ -2,7 +2,7 @@ import React from "react";
 import { Text, SafeAreaView, View, Pressable, StyleSheet } from "react-native";
 
 
-export default function InformacionPaciente({ paciente: pacienteObj, setModalPaciente }) {
+export default function InformacionPaciente({ paciente: pacienteObj, setModalPaciente, setPaciente }) {
 
     const { paciente, propietario, email, telefono, fecha, sintomas } = pacienteObj
 
@@ -25,7 +25,10 @@ export default function InformacionPaciente({ paciente: pacienteObj, setModalPac
             <View>
                 <Pressable
                     style={styles.cerrarBtn}
-                    onLongPress={() => setModalPaciente(false)}
+                    onLongPress={() => {
+                        setPaciente({})
+                        setModalPaciente(false)
+                    }}
                 >
                     <Text style={styles.cerrarTxt}>X Cerrar</Text>
                 </Pressable>
@@ -33,29 +36,34 @@ export default function InformacionPaciente({ paciente: pacienteObj, setModalPac
             <View
                 style={styles.containerPaciente}
             >
-                <View>
-                    <Text>Nombre: </Text>
-                    <Text>{paciente}</Text>
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Nombre:</Text>
+                    <Text style={styles.valor}>{paciente}</Text>
                 </View>
 
-                <View>
-                    <Text>Propietario: </Text>
-                    <Text>{propietario}</Text>
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Propietario:</Text>
+                    <Text style={styles.valor}>{propietario}</Text>
+                </View>
+                
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Email:</Text>
+                    <Text style={styles.valor}>{email}</Text>
                 </View>
 
-                <View>
-                    <Text>Email: </Text>
-                    <Text>{email}</Text>
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Telefono:</Text>
+                    <Text style={styles.valor}>{telefono}</Text>
                 </View>
 
-                <View>
-                    <Text>Telefono: </Text>
-                    <Text>{telefono}</Text>
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Fecha Alta:</Text>
+                    <Text style={styles.valor}>{formatearFecha(fecha)}</Text>
                 </View>
 
-                <View>
-                    <Text>Fecha Alta: </Text>
-                    <Text>{formatearFecha(fecha)}</Text>
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Síntomas:</Text>
+                    <Text style={styles.valor}>{sintomas}</Text>
                 </View>
             </View>
         </SafeAreaView>
@@ -101,8 +109,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         marginHorizontal: 30,
         borderRadius: 10,
-        padding: 10,
-        height: 300,
+        padding: 20,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -110,7 +117,24 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 10,
-    }
+        elevation: 15,
+    },
 
+    campo: {
+        marginBottom: 10,
+    }, 
+
+    label: {
+        textTransform: 'uppercase',
+        color: '#374151',
+        fontWeight: '900',
+        marginBottom: 3,
+        fontSize: 12
+    }, 
+
+    valor: {
+        fontWeight: '600',
+        fontSize: 16, 
+        color: '#224155'
+    }, 
 })

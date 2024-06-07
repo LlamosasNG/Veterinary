@@ -21,15 +21,19 @@ export default function Index() {
       '¿Deseas eliminar este paciente?',
       'Un paciente eliminado no se puede recuperar',
       [
-        { text: 'Cencelar' },
+        { text: 'Cancelar' },
         {
-          text: 'OK', onPress: () => {
+          text: 'Si, eliminar', onPress: () => {
             const pacientesActualizados = pacientes.filter(pacientesState => pacientesState.id !== id)
             setPacientes(pacientesActualizados)
           }
         }
       ]
     )
+  }
+
+  function cerrarModal() {
+    setModalVisible(false)
   }
 
   return (
@@ -60,21 +64,22 @@ export default function Index() {
                 pacienteEditar={pacienteEditar}
                 pacienteEliminar={pacienteEliminar}
                 setModalPaciente={setModalPaciente}
-
               />
             )
           }}
         />
       }
 
-      <Formulario
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        pacientes={pacientes}
-        setPacientes={setPacientes}
-        paciente={paciente}
-        setPaciente={setPaciente}
-      />
+      {modalVisible && (
+        <Formulario
+          modalVisible={modalVisible}
+          pacientes={pacientes}
+          setPacientes={setPacientes}
+          paciente={paciente}
+          setPaciente={setPaciente}
+          cerrarModal={cerrarModal}
+        />
+      )}
 
       <Modal
         visible={modalPaciente}
@@ -82,6 +87,7 @@ export default function Index() {
       >
         <InformacionPaciente
           paciente={paciente}
+          setPaciente={setPaciente}
           setModalPaciente={setModalPaciente}
         />
       </Modal>

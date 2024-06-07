@@ -16,9 +16,10 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
+      "adaptiveIcon": { 
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "package": "com.veterinary.llamosasng"
       }
     },
     "web": {
